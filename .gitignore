@@ -41,3 +41,7 @@ Desktop.ini
 scratch/
 tmp/
 *.bak
+
+# ===== Output xuất ra (PDF preview, bản export...) =====
+# Mọi file xuất từ InDesign để ở outputs/<layout-slug>/<spread>/, không commit
+outputs/
