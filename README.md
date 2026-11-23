@@ -5,7 +5,8 @@ Quy trình dùng Codex, ImageGen và Adobe InDesign để dựng minh họa theo
 ## Chuẩn bị
 
 - **Codex** để mở thư mục dự án và gọi skill `$twp-indesign` có sẵn trong repo.
-- **Adobe InDesign Desktop** để mở INDD/IDML, dàn chữ, kiểm tra ảnh liên kết và xuất PDF. Prompt thiết lập sẽ kiểm tra InDesign và chuẩn bị font cho bản dàn mẫu.
+- **Adobe InDesign Desktop** để mở INDD/IDML, dàn chữ, kiểm tra ảnh liên kết và xuất PDF. Cài qua Creative Cloud Desktop trên macOS hoặc Windows và chuẩn bị font cho bản dàn mẫu.
+- **Node.js 18 trở lên và npm** nếu muốn điều khiển InDesign qua MCP. Xem [Cài InDesign MCP](#cài-indesign-mcp) theo hệ điều hành.
 - **ImageGen trong phiên Codex** để dựng outline và lên màu. Bạn có thể đọc nguồn và đề xuất bố cục trước khi cần tạo ảnh.
 - **Python 3 và ImageMagick (`magick`)** nếu dùng script tính đường bao Text Wrap. [Hướng dẫn chạy script trong InDesign](.agents/skills/twp-indesign/references/job.md)
 
@@ -15,7 +16,7 @@ Quy trình dùng Codex, ImageGen và Adobe InDesign để dựng minh họa theo
 
 1. Mở [repo TWP InDesign trên GitHub](https://github.com/hatbuiinho/twp-indesign), chọn **Code → Download ZIP**.
 2. Giải nén và mở thư mục `twp-indesign-main` làm project trong Codex. Chọn đúng thư mục có `README.md`, `.agents/` và `layouts/`.
-3. Chuyển đến phần **Dùng trên một spread** để sao chép prompt sử dụng skill.
+3. Nếu dùng MCP, làm theo phần **Cài InDesign MCP**, rồi tiếp tục đến **Dùng trên một spread**.
 
 ZIP là bản chụp của repo tại thời điểm tải. Để lấy bản mới bằng ZIP, giải nén vào một thư mục riêng để giữ các chỉnh sửa trong bản cũ. Nếu muốn cập nhật bằng `git pull`, dùng cách clone bên dưới. [Hướng dẫn tải ZIP của GitHub](https://docs.github.com/en/repositories/working-with-files/using-files/downloading-source-code-archives)
 
@@ -84,14 +85,20 @@ Hãy trực tiếp chuẩn bị môi trường theo các bước sau:
    thiếu qua Adobe Fonts nếu tài khoản có quyền, hoặc cài từ tệp font
    hợp lệ đã có sẵn. Báo tên font hoặc đường dẫn ảnh còn thiếu để tôi
    có thể cung cấp đúng tài nguyên.
-4. Kiểm tra phiên có ImageGen để tạo minh họa hay không. Dùng công cụ
+4. Làm theo mục Cài InDesign MCP trong README. Kiểm tra node và npm,
+   cài gói đúng phiên bản, rồi cấu hình MCP theo hệ điều hành. Giữ các
+   mục cấu hình Codex hiện có. Nếu đã có InDesign MCP, thử kết nối đó trước.
+   Mở InDesign và gọi document_listOpen. Khi vừa thêm hoặc đổi cấu hình,
+   mở lại Codex nếu phiên hiện tại chưa nhận bộ công cụ. Báo riêng kết quả
+   kiểm tra MCP và bước nào còn cần thực hiện sau khi mở lại Codex.
+5. Kiểm tra phiên có ImageGen để tạo minh họa hay không. Dùng công cụ
    ImageGen có sẵn trong Codex. Nếu phiên chưa cấp công cụ này, báo rõ
    vì bước tạo ảnh phụ thuộc vào quyền của phiên.
 
 Tự chạy các bước có thể thực hiện và tiếp tục các bước độc lập khi một
 bước cần tôi thao tác. Khi xong, cho tôi đường dẫn tuyệt đối của project,
-kết quả kiểm tra Git, Python, ImageMagick, InDesign, font, ảnh liên kết và
-ImageGen, cùng một prompt mẫu gọi $twp-indesign để đề xuất bố cục spread.
+kết quả kiểm tra Git, Python, ImageMagick, InDesign, MCP, font, ảnh liên kết
+và ImageGen, cùng một prompt mẫu gọi $twp-indesign để đề xuất bố cục spread.
 ```
 
 Nếu thao tác bằng Terminal, lần đầu chạy các lệnh sau từ thư mục cha bạn đã chọn.
@@ -102,6 +109,67 @@ cd twp-indesign
 ```
 
 Ở các lần sau, trong thư mục gốc của repo, kiểm tra `git status --short --branch`. Khi đang ở nhánh `main` và thư mục làm việc sạch, chạy `git pull --ff-only origin main`.
+
+## Cài InDesign MCP
+
+MCP là tùy chọn để Codex điều khiển InDesign Desktop trên cùng máy. Hướng dẫn dùng gói npm `indesign-nutria-mcp@1.6.1` cho cả hai hệ điều hành. Nếu máy đã có mục `indesign` hoạt động, chuyển thẳng đến phần **Kiểm tra kết nối**.
+
+Sau khi cài Node.js, kiểm tra `node --version` và `npm --version`. Cài gói vào thư mục người dùng theo lệnh bên dưới. Trong cấu hình, thay đường dẫn mẫu bằng đường dẫn tuyệt đối trên máy, kể cả khi đường dẫn có khoảng trắng. Thêm hoặc sửa mục `[mcp_servers.indesign]` trong `~/.codex/config.toml` (trên Windows thường là `%USERPROFILE%\.codex\config.toml`). Giữ các mục MCP khác đã có.
+
+### macOS với bridge JXA
+
+Trong Terminal, chạy:
+
+```sh
+npm install --prefix "$HOME/.twp-indesign-mcp" indesign-nutria-mcp@1.6.1
+command -v node
+```
+
+Thêm cấu hình sau và thay `/duong-dan/toi/node` bằng kết quả của `command -v node`.
+
+```toml
+[mcp_servers.indesign]
+command = "/duong-dan/toi/node"
+args = ["/Users/ten-ban/.twp-indesign-mcp/node_modules/indesign-nutria-mcp/dist/index.js"]
+```
+
+Mở Adobe InDesign và nạp cấu hình trong Codex. Khi Codex đã khởi động MCP server, chạy bridge trong Terminal và giữ cửa sổ đó mở trong lúc làm việc.
+
+```sh
+node "$HOME/.twp-indesign-mcp/node_modules/indesign-nutria-mcp/bridge-proxy.mjs"
+```
+
+Cặp cấu hình này dùng cổng mặc định `8120`. Nếu dùng cổng tùy chỉnh, đặt `BRIDGE_PORT` cho server và `BRIDGE_WS_URL` cho proxy về cùng cổng. Nếu tên ứng dụng khác `Adobe InDesign 2026`, đặt `INDESIGN_APP` khi chạy proxy. Khi macOS hỏi quyền Automation, cho phép ứng dụng khởi chạy proxy điều khiển InDesign.
+
+### Windows với bridge COM
+
+Trong PowerShell, chạy:
+
+```powershell
+npm.cmd install --prefix "$env:USERPROFILE/.twp-indesign-mcp" indesign-nutria-mcp@1.6.1
+(Get-Command node.exe).Source
+```
+
+Dùng kết quả của `Get-Command` làm đường dẫn `command`. Mẫu TOML dùng dấu nháy đơn để giữ nguyên dấu gạch chéo ngược trong đường dẫn Windows.
+
+```toml
+[mcp_servers.indesign]
+command = 'C:\Program Files\nodejs\node.exe'
+args = ['C:\Users\ten-ban\.twp-indesign-mcp\node_modules\indesign-nutria-mcp\dist\index.js']
+
+[mcp_servers.indesign.env]
+COM_BRIDGE_ENABLED = "true"
+```
+
+Mở Adobe InDesign và nạp cấu hình trong Codex. Với cấu hình này, MCP server khởi động bridge COM qua `cscript`. macOS đã được thử với đường bao tùy chỉnh và xuất PDF trên trang 18–19. Trên Windows, chạy bài kiểm tra bên dưới trước khi dùng cho bản sản xuất.
+
+### Kiểm tra kết nối
+
+1. Mở chat trong Codex và yêu cầu gọi `document_listOpen` qua InDesign MCP. Danh sách tài liệu, kể cả `[]` khi chưa mở file, xác nhận InDesign đã phản hồi.
+2. Nếu phiên chưa thấy bộ công cụ `indesign`, kiểm tra mục cấu hình và mở lại Codex. Nếu thấy `bridge_not_connected`, kiểm tra InDesign đã mở, rồi kiểm tra proxy và cổng trên macOS hoặc cấu hình COM trên Windows. Gọi lại `document_listOpen` sau khi xử lý.
+3. Mở bản sao [trang 18–19](layouts/t53-part-1/18-19/) hoặc `layouts/t53-part-1.idml`. Kiểm tra chữ tiếng Việt, font và ảnh liên kết. Yêu cầu tạo một đường bao Text Wrap trên bản sao trang đôi, lưu INDD và xuất PDF vào `outputs/`. Mở lại bản INDD để kiểm tra đường bao còn chỉnh được, rồi soát chữ tràn, dòng đầu, gáy và số trang trên PDF.
+
+Nếu MCP chưa kết nối, có thể tiếp tục dàn bằng InDesign Desktop và bảng Scripts. [Cách chạy script của dự án](.agents/skills/twp-indesign/references/job.md) · [Tài liệu bridge của gói MCP](https://github.com/nutriandrea/adobe-indesign-mcp/tree/v1.6.1)
 
 ## Dùng trên một spread
 
