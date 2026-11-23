@@ -1,0 +1,43 @@
+# ===== macOS =====
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+.fseventsd
+Icon?
+
+# ===== Adobe InDesign =====
+# File khóa khi đang mở .indd (tự sinh, tự xóa khi đóng)
+*.idlk
+~*.idlk
+# Thư mục/bản sao do InDesign "Package" tạo ra
+*Folder/Document fonts/
+Document fonts/
+# File tạm / recovery
+*.indd~
+*.tmp
+
+# ===== Adobe khác (Photoshop/Illustrator/Acrobat) =====
+*.psb.tmp
+~*.tmp
+*.ai.tmp
+*.lck
+*.lock
+
+# ===== Windows (phòng khi mở trên máy Windows) =====
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ===== Editor / công cụ =====
+.vscode/
+.idea/
+*.swp
+*~
+
+# ===== File nháp / tạm của project =====
+scratch/
+tmp/
+*.bak
