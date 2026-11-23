@@ -86,8 +86,8 @@ Hãy trực tiếp chuẩn bị môi trường theo các bước sau:
    hợp lệ đã có sẵn. Báo tên font hoặc đường dẫn ảnh còn thiếu để tôi
    có thể cung cấp đúng tài nguyên.
 4. Làm theo mục Cài InDesign MCP trong README. Kiểm tra node và npm,
-   cài gói đúng phiên bản, rồi cấu hình MCP theo hệ điều hành. Giữ các
-   mục cấu hình Codex hiện có. Nếu đã có InDesign MCP, thử kết nối đó trước.
+   build MCP từ mã nguồn, rồi cấu hình Codex trỏ đến bản build local
+   theo hệ điều hành. Giữ các mục cấu hình MCP khác hiện có.
    Mở InDesign và gọi document_listOpen. Khi vừa thêm hoặc đổi cấu hình,
    mở lại Codex nếu phiên hiện tại chưa nhận bộ công cụ. Báo riêng kết quả
    kiểm tra MCP và bước nào còn cần thực hiện sau khi mở lại Codex.
@@ -112,50 +112,82 @@ cd twp-indesign
 
 ## Cài InDesign MCP
 
-MCP là tùy chọn để Codex điều khiển InDesign Desktop trên cùng máy. Hướng dẫn dùng gói npm `indesign-nutria-mcp@1.6.1` cho cả hai hệ điều hành. Nếu máy đã có mục `indesign` hoạt động, chuyển thẳng đến phần **Kiểm tra kết nối**.
+MCP là tùy chọn để Codex điều khiển InDesign Desktop trên cùng máy. Repo MCP có checkout riêng trong thư mục `adobe-indesign-mcp/`, ngang hàng với `README.md` và `layouts/`. Dùng Git để tải và cập nhật checkout này.
 
-Sau khi cài Node.js, kiểm tra `node --version` và `npm --version`. Cài gói vào thư mục người dùng theo lệnh bên dưới. Trong cấu hình, thay đường dẫn mẫu bằng đường dẫn tuyệt đối trên máy, kể cả khi đường dẫn có khoảng trắng. Thêm hoặc sửa mục `[mcp_servers.indesign]` trong `~/.codex/config.toml` (trên Windows thường là `%USERPROFILE%\.codex\config.toml`). Giữ các mục MCP khác đã có.
+### Tải và cập nhật mã nguồn
+
+Nếu chưa có thư mục `adobe-indesign-mcp/`, mở Terminal hoặc PowerShell tại thư mục gốc dự án TWP InDesign và chạy:
+
+```sh
+git clone --branch main https://github.com/nutriandrea/adobe-indesign-mcp.git adobe-indesign-mcp
+```
+
+Nếu đã clone repo MCP, kiểm tra checkout từ thư mục gốc dự án:
+
+```sh
+git -C adobe-indesign-mcp remote -v
+git -C adobe-indesign-mcp status --short --branch
+```
+
+Khi `origin` trỏ đến repo trên và cây làm việc sạch, chuyển sang `main` nếu trước đó đã checkout tag `v1.6.1` theo hướng dẫn cũ. Sau đó pull bản cập nhật:
+
+```sh
+git -C adobe-indesign-mcp switch main
+git -C adobe-indesign-mcp pull --ff-only origin main
+```
+
+Sau khi clone hoặc pull, chạy các bước build cho hệ điều hành bên dưới. Sau khi cập nhật, mở lại Codex để nạp bản build mới. Trên macOS, khởi động lại cả bridge JXA.
+
+Kiểm tra Node.js 18 trở lên và npm. Các lệnh `npm ci` bên dưới cài dependency theo `package-lock.json`, còn `npm run build` tạo entry point `dist/index.js` từ mã nguồn. Chạy lại hai lệnh này khi cập nhật mã nguồn.
+
+Thêm hoặc sửa mục `[mcp_servers.indesign]` trong `~/.codex/config.toml` (trên Windows thường là `%USERPROFILE%\.codex\config.toml`). Nếu đã cấu hình MCP InDesign từ trước, cập nhật mục đó để trỏ đến bản build local. Thay các đường dẫn mẫu bằng đường dẫn tuyệt đối trên máy và giữ các mục MCP khác đã có.
 
 ### macOS với bridge JXA
 
-Trong Terminal, chạy:
+Từ thư mục gốc dự án, chạy trong Terminal:
 
 ```sh
-npm install --prefix "$HOME/.twp-indesign-mcp" indesign-nutria-mcp@1.6.1
+cd adobe-indesign-mcp
+npm ci
+npm run build
+pwd
 command -v node
 ```
 
-Thêm cấu hình sau và thay `/duong-dan/toi/node` bằng kết quả của `command -v node`.
+Dùng kết quả của `command -v node` cho `command` và đường dẫn thư mục từ `pwd` để điền `args`.
 
 ```toml
 [mcp_servers.indesign]
 command = "/duong-dan/toi/node"
-args = ["/Users/ten-ban/.twp-indesign-mcp/node_modules/indesign-nutria-mcp/dist/index.js"]
+args = ["/Users/ten-ban/twp-indesign/adobe-indesign-mcp/dist/index.js"]
 ```
 
-Mở Adobe InDesign và nạp cấu hình trong Codex. Khi Codex đã khởi động MCP server, chạy bridge trong Terminal và giữ cửa sổ đó mở trong lúc làm việc.
+Mở Adobe InDesign và nạp cấu hình trong Codex. Khi Codex đã khởi động MCP server, chạy bridge từ cùng thư mục mã nguồn bằng đường dẫn tuyệt đối trong Terminal và giữ cửa sổ đó mở trong lúc làm việc.
 
 ```sh
-node "$HOME/.twp-indesign-mcp/node_modules/indesign-nutria-mcp/bridge-proxy.mjs"
+node "/Users/ten-ban/twp-indesign/adobe-indesign-mcp/bridge-proxy.mjs"
 ```
 
 Cặp cấu hình này dùng cổng mặc định `8120`. Nếu dùng cổng tùy chỉnh, đặt `BRIDGE_PORT` cho server và `BRIDGE_WS_URL` cho proxy về cùng cổng. Nếu tên ứng dụng khác `Adobe InDesign 2026`, đặt `INDESIGN_APP` khi chạy proxy. Khi macOS hỏi quyền Automation, cho phép ứng dụng khởi chạy proxy điều khiển InDesign.
 
 ### Windows với bridge COM
 
-Trong PowerShell, chạy:
+Từ thư mục gốc dự án, chạy trong PowerShell:
 
 ```powershell
-npm.cmd install --prefix "$env:USERPROFILE/.twp-indesign-mcp" indesign-nutria-mcp@1.6.1
+Set-Location adobe-indesign-mcp
+npm.cmd ci
+npm.cmd run build
+(Get-Location).Path
 (Get-Command node.exe).Source
 ```
 
-Dùng kết quả của `Get-Command` làm đường dẫn `command`. Mẫu TOML dùng dấu nháy đơn để giữ nguyên dấu gạch chéo ngược trong đường dẫn Windows.
+Dùng kết quả của `Get-Command` cho `command` và đường dẫn thư mục từ `Get-Location` để điền `args`. Mẫu TOML dùng dấu nháy đơn để giữ nguyên dấu gạch chéo ngược trong đường dẫn Windows.
 
 ```toml
 [mcp_servers.indesign]
 command = 'C:\Program Files\nodejs\node.exe'
-args = ['C:\Users\ten-ban\.twp-indesign-mcp\node_modules\indesign-nutria-mcp\dist\index.js']
+args = ['C:\Users\ten-ban\twp-indesign\adobe-indesign-mcp\dist\index.js']
 
 [mcp_servers.indesign.env]
 COM_BRIDGE_ENABLED = "true"
@@ -169,7 +201,7 @@ Mở Adobe InDesign và nạp cấu hình trong Codex. Với cấu hình này, M
 2. Nếu phiên chưa thấy bộ công cụ `indesign`, kiểm tra mục cấu hình và mở lại Codex. Nếu thấy `bridge_not_connected`, kiểm tra InDesign đã mở, rồi kiểm tra proxy và cổng trên macOS hoặc cấu hình COM trên Windows. Gọi lại `document_listOpen` sau khi xử lý.
 3. Mở bản sao [trang 18–19](layouts/t53-part-1/18-19/) hoặc `layouts/t53-part-1.idml`. Kiểm tra chữ tiếng Việt, font và ảnh liên kết. Yêu cầu tạo một đường bao Text Wrap trên bản sao trang đôi, lưu INDD và xuất PDF vào `outputs/`. Mở lại bản INDD để kiểm tra đường bao còn chỉnh được, rồi soát chữ tràn, dòng đầu, gáy và số trang trên PDF.
 
-Nếu MCP chưa kết nối, có thể tiếp tục dàn bằng InDesign Desktop và bảng Scripts. [Cách chạy script của dự án](.agents/skills/twp-indesign/references/job.md) · [Tài liệu bridge của gói MCP](https://github.com/nutriandrea/adobe-indesign-mcp/tree/v1.6.1)
+Nếu MCP chưa kết nối, có thể tiếp tục dàn bằng InDesign Desktop và bảng Scripts. [Cách chạy script của dự án](.agents/skills/twp-indesign/references/job.md) · [Tài liệu mã nguồn InDesign MCP](adobe-indesign-mcp/README.md)
 
 ## Dùng trên một spread
 
