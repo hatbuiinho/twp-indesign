@@ -15,7 +15,7 @@ description: Dựng cảnh minh họa như nhiếp ảnh gia, vẽ outline hoặ
 ## Quy định dự án
 
 - Thực hiện hình minh họa theo style Semi-Realistic Storybook Illustration dạng outline.
-- Không được tự ý thay đổi font size, dãn dòng.
+- Không được tự ý thay đổi font size, dãn dòng, vị trí dòng đầu tiên của chữ.
 - Chỉ sử dụng skill ImageGen để tạo hình cho dàn trang.
 - Profile nhân vật lấy từ thư mục `characters/`.
 - File output (PDF xuất/preview từ InDesign) đặt trong `outputs/<layout-slug>/<spread>/`, không để trong `layouts/`. Thư mục `outputs/` đã được git ignore.
