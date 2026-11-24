@@ -2,7 +2,9 @@
 
 ## Nền toàn trang và Text Wrap cục bộ
 
-Dàn trực tiếp trong InDesign hoặc dùng JSX theo khung nguồn khi cần giữ cả tài liệu, giữ story liên kết hoặc chỉ cho chữ né một chi tiết cụ thể.
+Clone spread đích thành một tài liệu InDesign riêng. Giữ khổ trang, số trang in, chữ và định dạng có thể chỉnh sửa, liên kết ảnh và đường bao Text Wrap.
+
+Khi chữ thuộc story liên kết với các spread khác, dùng tài liệu nguồn hoặc bản làm việc đầy đủ để xác định phạm vi chữ của từng khung và kiểm tra điểm ngắt với spread kế. Trong bản clone, chỉ giữ phần chữ thuộc spread đích. Xuất INDD/IDML từ bản clone và mở lại để xác nhận số spread, số trang in, liên kết ảnh và chữ tràn.
 
 1. Trên bản INDD riêng, xác nhận khổ in và đối chiếu chữ trong từng khung đích. Ướm chữ thật để xác định vùng nền nhẹ, khoảng gáy và số trang. Với nền phủ tới mép cắt, dùng tỉ lệ đúng khổ và tính bleed theo tài liệu khi đầu ra cần bleed.
 2. Đặt ảnh đã dựng toàn trang ở dưới lớp chữ, giữ tỉ lệ khi fit. Đặt Text Wrap của khung ảnh thành **No Text Wrap**. Kiểm tra ở bản màu xem nền có liền mạch đi qua vùng chữ hay còn mép ảnh tạo đường chia ngang.

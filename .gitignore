@@ -45,3 +45,6 @@ tmp/
 # ===== Output xuất ra (PDF preview, bản export...) =====
 # Mọi file xuất từ InDesign để ở outputs/<layout-slug>/<spread>/, không commit
 outputs/
+
+# Checkout riêng của InDesign MCP
+/adobe-indesign-mcp/
