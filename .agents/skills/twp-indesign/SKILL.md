@@ -18,7 +18,7 @@ description: Dựng cảnh minh họa như nhiếp ảnh gia, vẽ outline hoặ
 - Không được tự ý thay đổi font size, dãn dòng, vị trí dòng đầu tiên của chữ.
 - Chỉ sử dụng skill ImageGen để tạo hình cho dàn trang.
 - Profile nhân vật lấy từ thư mục `characters/`.
-- File output (PDF xuất/preview từ InDesign) đặt trong `outputs/<layout-slug>/<spread>/`, không để trong `layouts/`. Thư mục `outputs/` đã được git ignore.
+- Lưu mọi bản dàn theo spread, ảnh liên kết, outline và tệp bàn giao (INDD, IDML, PNG, PDF) trong `outputs/<layout-slug>/<spread>/`. Git bỏ qua `outputs/`. Đặt tài liệu nguồn trong `layouts/`.
 
 ## Chọn công cụ Adobe
 

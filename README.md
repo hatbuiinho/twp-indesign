@@ -199,7 +199,7 @@ Mở Adobe InDesign và nạp cấu hình trong Codex. Với cấu hình này, M
 
 1. Mở chat trong Codex và yêu cầu gọi `document_listOpen` qua InDesign MCP. Danh sách tài liệu, kể cả `[]` khi chưa mở file, xác nhận InDesign đã phản hồi.
 2. Nếu phiên chưa thấy bộ công cụ `indesign`, kiểm tra mục cấu hình và mở lại Codex. Nếu thấy `bridge_not_connected`, kiểm tra InDesign đã mở, rồi kiểm tra proxy và cổng trên macOS hoặc cấu hình COM trên Windows. Gọi lại `document_listOpen` sau khi xử lý.
-3. Mở bản sao [trang 18–19](layouts/t53-part-1/18-19/) hoặc `layouts/t53-part-1.idml`. Kiểm tra chữ tiếng Việt, font và ảnh liên kết. Yêu cầu tạo một đường bao Text Wrap trên bản sao trang đôi, lưu INDD và xuất PDF vào `outputs/`. Mở lại bản INDD để kiểm tra đường bao còn chỉnh được, rồi soát chữ tràn, dòng đầu, gáy và số trang trên PDF.
+3. Mở `layouts/t53-part-1.idml` và tạo bản sao spread trang 18–19 trong `outputs/t53-part-1/18-19/`. Kiểm tra chữ tiếng Việt, font và ảnh liên kết. Yêu cầu tạo một đường bao Text Wrap trên bản sao trang đôi, lưu INDD và xuất PDF vào `outputs/`. Mở lại bản INDD để kiểm tra đường bao còn chỉnh được, rồi soát chữ tràn, dòng đầu, gáy và số trang trên PDF.
 
 Nếu MCP chưa kết nối, có thể tiếp tục dàn bằng InDesign Desktop và bảng Scripts. [Cách chạy script của dự án](.agents/skills/twp-indesign/references/job.md) · [Tài liệu mã nguồn InDesign MCP](adobe-indesign-mcp/README.md)
 
