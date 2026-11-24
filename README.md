@@ -223,6 +223,44 @@ Sau khi duyệt, tiếp tục trong cùng chat theo công việc bạn cần.
 
 Khi giao việc, ghi rõ bạn đang nói tới **số trang in** hay **thứ tự trang trong PDF**. Trong bộ layout Tập 53, mỗi trang PDF là một spread. Kiểm tra cả hai bên trên chính bản nguồn vì một số phần vẫn dùng tiếng Việt ở trang phải.
 
+### Prompt mẫu cho trang 22–23 Part 1
+
+Sao chép từng khối theo thứ tự vào cùng một chat. Duyệt phương án trước khi gửi prompt dựng outline. Khi dùng cho spread khác, thay số trang in và tên phần.
+
+**1. Lên phương án chụp cảnh và bố cục**
+
+```text
+Dùng $twp-indesign cho trang in 22–23 của Tập 53, Part 1.
+Hãy nhập vai nhiếp ảnh gia để đề xuất một khoảnh khắc sống động, giàu
+tính nghệ thuật, bám sát kịch bản. Mô tả góc máy, hướng sáng, cử chỉ
+và biểu cảm nhân vật. Đề xuất cách đặt tranh và vùng đọc trên toàn
+spread, có tính đến gáy sách. Trình bày phương án để mình duyệt.
+```
+
+**2. Dựng outline và dàn toàn spread**
+
+```text
+Dùng $twp-indesign thực hiện phương án đã duyệt cho trang in 22–23
+của Tập 53, Part 1. Bỏ frame xanh và note trên bản dàn. Tạo outline
+nét sạch theo phong cách Semi-Realistic Storybook Illustration.
+Dàn tranh và chữ thật trên toàn spread. Cho chữ ôm theo đường nét
+của hình ở những chỗ phù hợp để bố cục sinh động và dễ đọc.
+
+Nếu có điểm bất thường ảnh hưởng đến bố cục hoặc khả năng đọc,
+hãy chỉ rõ vị trí, giải thích vấn đề và hỏi mình trước khi xử lý.
+```
+
+**3. Xuất bản dàn để lên màu**
+
+```text
+Dùng $twp-indesign xuất bản dàn outline cuối của trang in 22–23,
+Part 1. Giao PNG outline có chữ thật để mình đối chiếu bố cục và
+PNG outline không chữ cùng kích thước để tô trực tiếp. Kèm INDD
+chỉnh sửa được và PDF xem trước. Ghi trong câu trả lời nội dung
+kịch bản của cảnh đã vẽ, gồm bối cảnh, khoảnh khắc, hành động
+và biểu cảm chính để mình dựa vào đó lên màu.
+```
+
 ## Dùng cho tập truyện mới
 
 1. Tạo `story/<ma-tap>/` theo mẫu [Tập 53](story/t53). Đặt kịch bản trong `script.md`, quy ước bối cảnh và tính nhất quán trong `bible.md`, danh sách cảnh trong `scenes.md`.
